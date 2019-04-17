@@ -1,0 +1,6 @@
+[submodule "cnv-framework"]
+	path = cnv-framework
+	url = git@github.com:danieltsilva/cnv-framework.git
+[submodule "cnv-client-exams"]
+	path = cnv-client-exams
+	url = git@github.com:danieltsilva/cnv-client-exams.git

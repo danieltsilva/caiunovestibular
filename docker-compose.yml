@@ -1,0 +1,49 @@
+version: '3.3'
+
+services:
+
+  cnv-front:
+    image: cnv-client-exams
+    build:
+      context: ./cnv-client-exams
+    ports:
+      - "8000:80"
+    depends_on:
+      - cnv-framework
+
+  cnv-framework:
+    image: cnv-framework
+    build: 
+      context: ./cnv-framework
+    ports:
+      - "8080:8080"
+    volumes:
+      - m2:/root/.m2
+      - ./scripts:/home/danieltsilva/workspace/caiunovestibular/cnv-framework/scripts/
+    depends_on:
+      - cnv-mysql
+
+  cnv-mysql:
+    image: mysql:5.7
+    secrets:
+      - mysql_root_pass
+      - mysql_cnv_pass
+    environment:
+      MYSQL_ROOT_PASSWORD: caiunovestibular
+      MYSQL_DATABASE: caiunovestibular
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: caiunovestibular
+    ports:
+      - '3306:3306'
+    volumes:
+      - cnv-mysql-data:/var/lib/mysql
+
+volumes:
+  m2:
+  cnv-mysql-data:
+
+secrets:
+  mysql_root_pass:
+    file: ./secrets/mysql_root_pass
+  mysql_cnv_pass:
+    file: ./secrets/mysql_cnv_pass
